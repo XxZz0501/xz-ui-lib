@@ -2,6 +2,7 @@ import { resolve } from 'path';
 import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import dts from 'vite-plugin-dts';
+import path from 'node:path'
 
 export default defineConfig({
   plugins: [
@@ -12,6 +13,11 @@ export default defineConfig({
       include: ['src'],
     }),
   ],
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, './src') // 将 @ 指向 src 目录
+    }
+  },
   build: {
     lib: {
       entry: resolve(__dirname, 'src/index.ts'),
