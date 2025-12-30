@@ -155,11 +155,11 @@ for (const filePath of mdFiles) {
         let paramTable = '';
         if (params.length > 0) {
             paramTable = `
-                #### 参数
+#### 参数
 
-                | 名称 | 类型 | 说明 |
-                |------|------|------|
-                `;
+| 名称 | 类型 | 说明 |
+|------|------|------|
+`;
             for (const p of params) {
                 paramTable += `| \`${p.name}\` | \`${p.type}\` | ${p.desc} |\n`;
             }
@@ -169,18 +169,18 @@ for (const filePath of mdFiles) {
         const exampleBlock = example ? `\n### 示例\n\n${example}` : '';
 
         const methodContent = `
-            ## ${methodName}
+## ${methodName}
 
-            \`\`\`ts
-            ${signature}
-            \`\`\`
+\`\`\`ts
+${signature}
+\`\`\`
 
-            ${desc}
+${desc}
 
-            ${paramTable}
-            ${returnBlock}
-            ${exampleBlock}
-            `.trim();
+${paramTable}
+${returnBlock}
+${exampleBlock}
+`.trim();
 
         processedMethods.push(methodContent);
     }

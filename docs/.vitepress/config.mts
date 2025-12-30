@@ -6,6 +6,7 @@ const root = resolve(__dirname, '..')
 const srcDir = resolve(root, '../src') // 假设 src 和 docs 同级
 
 export default defineConfig({
+  base: '/xz-ui-lib/',
   title: "XZ UI",
   description: "Vue 3 组件库",
 
@@ -74,7 +75,7 @@ export default defineConfig({
     },
 
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/your-name/xz-ui-lib' },
+      { icon: 'github', link: 'https://github.com/XxZz0501/xz-ui-lib' },
     ],
   },
 })
