@@ -10,7 +10,7 @@ import {
   isReactive
 } from 'vue'
 import { Table, type QueryInter } from '@/class/table'
-import { VisibleEntity } from '@/class/modal'
+import { VisibleEntity } from '@/class/visible'
 import { modal } from '@/utils'
 
 /**
