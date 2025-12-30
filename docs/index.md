@@ -1,6 +1,4 @@
 ```
----
-# https://vitepress.dev/reference/default-theme-home-page
 layout: home
 
 hero:
@@ -13,7 +11,7 @@ hero:
       link: /guide/introduction
     - theme: alt
       text: GitHub
-      link: https://github.com/your-name/xz-ui-lib
+      link: https://github.com/XxZz0501/xz-ui-lib
 
 features:
   - title: 🧰 工具函数
@@ -22,5 +20,4 @@ features:
     details: useFetch、useStorage 等响应式逻辑封装
   - title: 🎨 高质量组件
     details: 按钮、表单、弹窗等常用 UI 组件
----
 ```
