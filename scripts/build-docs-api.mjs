@@ -3,7 +3,7 @@ import { execSync } from 'child_process'
 
 console.log('📦 正在生成 API 文档...')
 
-execSync('npx typedoc', {
+execSync('npx typedoc --options typedoc.utils.json', {
   stdio: 'inherit'
 })
 

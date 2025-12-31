@@ -31,7 +31,8 @@ export default defineConfig({
     nav: [
       { text: '指南', link: '/guide/introduction' },
       { text: 'API', link: '/api/README' },
-      { text: 'Composables', link: '/composables/' },
+      { text: 'Class', link: '/class/README' },
+      { text: 'Composables', link: '/composables/README' },
       { text: '组件', link: '/components/' },
     ],
 
@@ -61,10 +62,28 @@ export default defineConfig({
         {
           text: '组合式函数',
           items: [
-            { text: '概览', link: '/composables/' },
-            // 后续添加具体 composable
+            { text: '概览', link: '/composables/index/README' },
+            {
+              text: 'Table', link: '/composables/useCrudTable/README',
+              items: [
+                { text: 'ApiMethods', link: '/composables/useCrudTable/interfaces/ApiMethods' },
+                { text: 'UseCrudTableOptions', link: '/composables/useCrudTable/interfaces/UseCrudTableOptions' },
+                { text: 'StatusValueType', link: '/composables/useCrudTable/type-aliases/StatusValueType' },
+                { text: 'useCrudTable', link: '/composables/useCrudTable/functions/useCrudTable' },
+              ]
+            },
           ],
         },
+      ],
+      '/class/': [
+        {
+          text: 'Class',
+          items: [
+            { text: '概览', link: '/class/index/README' },
+            { text: 'Table', link: '/class/table/README' },
+            { text: 'Visible', link: '/class/visible/README' }
+          ]
+        }
       ],
       '/components/': [
         {

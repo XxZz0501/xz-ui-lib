@@ -1,15 +1,22 @@
 {
-  "entryPoints": ["src/utils/*.ts"],
-  "out": "docs/api",
+  "entryPoints": ["src/composables/*.ts"],
+  "out": "docs/composables",
   "readme": "none",
   "plugin": ["typedoc-plugin-markdown"],
-  "exclude": ["src/index.ts", "**/components/**", "**/composables/**", "**/*.vue"],
+  "exclude": ["src/index.ts", "**/components/**", "**/utils/**", "**/*.vue"],
   "excludeExternals": true,
   "excludePrivate": true,
   "excludeProtected": true,
   "disableSources": true,
   "hideBreadcrumbs": true,
   "githubPages": false,
+
+  "externalSymbolLinkMappings": {
+    "xz-ui-lib": {
+      "Table": "/class/table/classes/Table",
+      "VisibleEntity": "/class/visible/classes/VisibleEntity"
+    }
+  },
 
   "markdown": {
     "theme": "default",
@@ -22,7 +29,7 @@
     "showConstructors": false,
     "showIndexSignatures": false,
     "showOverloads": false,
-    "showExamples": true, // 启用 JSDoc 中的 @example
+    "showExamples": true,
     "showTypeDeclarations": true,
     "showModuleFilenames": false,
     "showModuleMembers": true,
@@ -32,6 +39,6 @@
     "showPropertyTypes": true,
     "showParameterTypes": true,
     "showSignature": true,
-    "showSourceCode": false,
-  },
+    "showSourceCode": false
+  }
 }
