@@ -11,7 +11,7 @@ import {
 } from 'vue'
 import { Table, type QueryInter } from '@/class/table'
 import { VisibleEntity } from '@/class/visible'
-import { modal } from '@/utils'
+import { xzModal } from '@/utils'
 
 /**
  * API 方法集合接口（由 apiFn 返回）
@@ -195,7 +195,7 @@ export interface UseCrudTableOptions<T, Q extends QueryInter> {
  * @throws 如果在非 `setup()` 上下文中调用，将抛出错误（因依赖 `getCurrentInstance`）
  *
  * @remarks
- * - 删除和启停操作依赖全局 `modal.confirm` 和 `modal.msgSuccess`，请确保已引入
+ * - 删除和启停操作依赖全局 `xzModal.confirm` 和 `xzModal.msgSuccess`，请确保已引入
  * - 字典字段会自动解构为 `xxxDict` 形式（如 `user_status` → `userStatusDict`），具体取决于 `useDict` 实现
  * - `extraParams` 优先级低于 `query`，但高于默认值，适用于租户 ID、固定分类等场景
  */
@@ -296,10 +296,10 @@ export function useCrudTable<T extends { id: string | number }, Q extends QueryI
    * @param row - 当前行数据
    */
   const handleDelete = async (row: T) => {
-    await modal.confirm('删除该条数据，是否继续？')
+    await xzModal.confirm('删除该条数据，是否继续？')
     await apiFn().del?.(row.id)
     await getList()
-    modal.msgSuccess('删除成功')
+    xzModal.msgSuccess('删除成功')
   }
 
   /**
@@ -329,10 +329,10 @@ export function useCrudTable<T extends { id: string | number }, Q extends QueryI
     const text = isCurrentlyActive ? '停用' : '启用'
 
     try {
-      await modal.confirm(`确定要${text}该条数据吗？`)
+      await xzModal.confirm(`确定要${text}该条数据吗？`)
       await apiFn().startStop?.(row.id)
       await getList()
-      modal.msgSuccess('操作成功')
+      xzModal.msgSuccess('操作成功')
     } catch {
       // 用户取消或请求失败，静默处理
     }

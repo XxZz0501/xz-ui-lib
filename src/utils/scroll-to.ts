@@ -13,7 +13,7 @@
  * scroll.to(500, 500, () => console.log('滚动完成'))
  * ```
  */
-export const scroll = {
+export const xzScroll = {
   /**
    * 平滑滚动到指定垂直位置（Y 坐标）
    *

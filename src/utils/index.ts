@@ -1,5 +1,5 @@
 export { xzDate } from './date';
 export { xzFormRules } from './formRules';
 export { xzObject } from './object'
-export { modal } from './ui'
-export { scroll } from './scroll-to'
+export { xzModal } from './ui'
+export { xzScroll } from './scroll-to'

@@ -21,7 +21,7 @@ let loadingInstance: { close: () => void } | null = null
  * modal.closeLoading()
  * ```
  */
-export const modal = {
+export const xzModal = {
   // ========== 消息提示（Message）==========
 
   /**

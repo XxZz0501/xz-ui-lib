@@ -1,5 +1,6 @@
 // Components
-export { default as MyButton } from './components/MyButton/index';
+export { default as XzTable } from './components/XzTable/index';
+export { default as XzPagination } from './components/XzPagination/index';
 
 // Composables
 export * from './composables';
@@ -9,13 +10,14 @@ export * from './utils';
 
 // Install function
 import type { App } from 'vue';
-import MyButton from './components/MyButton/index';
+import XzTable from './components/XzTable/index';
+import XzPagination from './components/XzPagination/index';
 
-const components = [MyButton];
+const components = [XzTable, XzPagination];
 
 export function install(app: App) {
   components.forEach(comp => {
-    app.component(comp.name || comp.displayName || 'AnonymousComponent', comp);
+    app.component(comp.name || 'AnonymousComponent', comp);
   });
 }
 

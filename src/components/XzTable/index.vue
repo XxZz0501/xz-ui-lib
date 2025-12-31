@@ -87,7 +87,7 @@ const { table, getList } = useCrudTable<User, UserQuery>({
         :total="table.pagination.total"
         v-model:page="table.pagination.pageNum"
         v-model:limit="table.pagination.pageSize"
-        @pagination="emit('refresh')"
+        @pagination="getList"
       />
     </div>
   </div>
@@ -98,6 +98,26 @@ const { table, getList } = useCrudTable<User, UserQuery>({
   lang="ts"
   generic="T extends { id: string | number }, Q extends import('@/class/table').QueryInter"
 >
+/**
+ * @prop {Table<T, Q>} table 表格核心实例，由 useCrudTable.table 提供
+ * @prop {() => Promise<T[]>} getList 获取列表数据的方法，由 useCrudTable.getList 提供
+ * @prop {boolean} [hideQuery=false] 是否隐藏查询区域
+ * @prop {boolean} [hidePagination=false] 是否隐藏分页
+ * @prop {boolean} [hideReset=false] 是否隐藏重置按钮
+ * @prop {"between"|"start"} [queryLayout="between"] 查询区域布局方式
+ * @prop {boolean} [singleSelection=false] 是否启用单选模式
+ * @prop {string|number} [height="100%"] 表格高度
+ *
+ * @slot query 查询表单项插槽
+ * @slot query-actions 查询区右侧操作按钮插槽
+ * @slot columns 表格列定义插槽（必须使用 el-table-column）
+ *
+ * @expose selectedRows 当前选中的行数据数组
+ * @expose clearSelection 清空所有选中项
+ * @expose toggleRowSelection 切换某一行的选中状态
+ * @expose getTableRef 获取内部 ElTable 实例引用
+ */
+
 import { ref, computed, nextTick } from "vue";
 import type { Table } from "@/class/table";
 import Pagination from "../XzPagination/index.vue";
@@ -152,10 +172,6 @@ const props = withDefaults(
     height: "100%",
   }
 );
-
-const emit = defineEmits<{
-  (e: "refresh"): void;
-}>();
 
 const tableRef = ref<InstanceType<typeof ElTable> | null>(null);
 const selectedRows = ref<T[]>([]);
