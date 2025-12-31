@@ -1,5 +1,5 @@
 {
-  "name": "xz-ui-lib",
+  "name": "@xxzz/xz-ui-lib",
   "version": "1.0.0",
   "description": "A Vue 3 component library with TS support",
   "keywords": [
@@ -75,7 +75,7 @@
     "typedoc-plugin-markdown": "^4.9.0",
     "typescript": "^5.4.0",
     "vite": "^5.2.0",
-    "vite-plugin-dts": "^3.8.0",
+    "vite-plugin-dts": "^3.9.1",
     "vitepress": "^1.6.4",
     "vue": "^3.4.0"
   }

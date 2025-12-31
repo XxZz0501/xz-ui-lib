@@ -45,7 +45,7 @@ function handlePagination({ page, limit }) {
 
 注意事项
 必须传入 total，否则分页器无法正确计算总页数。
-若使用 autoScroll: true（默认），请确保项目中已正确引入并配置 @/utils/scroll.to 方法。
+若使用 autoScroll: true（默认），请确保项目中已正确引入并配置 @/utils/xzScroll.to 方法。
 pagerCount 通常无需手动设置，组件会根据屏幕宽度自动适配；如需固定值，可显式传入。
 隐藏分页器请使用 hidden 属性，而非 v-if，以避免重复挂载/销毁带来的性能开销。 
  -->
@@ -65,7 +65,7 @@ pagerCount 通常无需手动设置，组件会根据屏幕宽度自动适配；
   </div>
 </template>
 
-<script setup lang="ts">
+<script setup lang="ts" name="XzPagination">
 /**
  * @prop {number} total 总数据条数
  * @prop {number} [page=1] 当前页码（支持 v-model:page）
@@ -86,7 +86,7 @@ pagerCount 通常无需手动设置，组件会根据屏幕宽度自动适配；
  * @expose pageSizeProxy 每页条数的双向绑定代理（内部使用）
  */
 import { ref, computed, onMounted, onBeforeUnmount } from "vue";
-import { scroll } from "@/utils";
+import { xzScroll } from "@/utils";
 
 // ========================
 // Props 定义（带类型）
@@ -209,14 +209,14 @@ function handleSizeChange(newPageSize: number) {
   }
   emit("pagination", { page: newPage, limit: newPageSize });
   if (props.autoScroll) {
-    scroll.to(0, 800);
+    xzScroll.to(0, 800);
   }
 }
 
 function handleCurrentChange(newPage: number) {
   emit("pagination", { page: newPage, limit: props.limit });
   if (props.autoScroll) {
-    scroll.to(0, 800);
+    xzScroll.to(0, 800);
   }
 }
 </script>

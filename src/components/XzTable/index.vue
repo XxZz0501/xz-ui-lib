@@ -96,6 +96,7 @@ const { table, getList } = useCrudTable<User, UserQuery>({
 <script
   setup
   lang="ts"
+  name="XzTable"
   generic="T extends { id: string | number }, Q extends import('@/class/table').QueryInter"
 >
 /**

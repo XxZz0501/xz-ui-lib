@@ -30,6 +30,7 @@ export default defineConfig({
       output: {
         globals: {
           vue: 'Vue',
+          'element-plus': 'ElementPlus'
         },
         chunkFileNames: 'chunks/[name].js',
         assetFileNames: (assetInfo) => {
