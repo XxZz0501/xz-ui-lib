@@ -16,7 +16,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed, onMounted, watchEffect } from "vue";
+import { ref, computed, onMounted, onBeforeUnmount } from "vue";
 import { scroll } from "@/utils";
 
 // ========================
@@ -110,8 +110,9 @@ onMounted(() => {
   };
   checkScreen();
   window.addEventListener("resize", checkScreen);
+
   // 组件卸载时移除监听（可选，若项目有内存泄漏顾虑）
-  // onBeforeUnmount(() => window.removeEventListener('resize', checkScreen))
+  onBeforeUnmount(() => window.removeEventListener("resize", checkScreen));
 });
 
 // ========================

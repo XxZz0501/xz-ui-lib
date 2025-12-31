@@ -1,4 +1,4 @@
-// useCrudTable.ts
+// src/composables/useCrudTable.ts
 
 import {
   ref,
@@ -16,35 +16,35 @@ import { modal } from '@/utils'
 /**
  * API 方法集合接口（由 apiFn 返回）
  */
-interface ApiMethods<T> {
+export interface ApiMethods<T> {
   /**
    * 获取列表数据
-   * @param params - 查询参数
-   * @returns 包含分页数据的 Promise
+   * @param params - 查询参数（包含分页、排序、过滤等）
+   * @returns Promise<{ list: T[], total: number }>
    */
   list: (params: any) => Promise<any>
 
   /**
-   * 新增数据
-   * @param data - 待新增的实体
+   * 新增数据（可选）
+   * @param data - 待新增的实体对象
    */
   add?: (data: T) => Promise<void>
 
   /**
-   * 编辑数据
-   * @param data - 待更新的实体（需包含 id）
+   * 编辑数据（可选）
+   * @param data - 待更新的实体对象（必须包含唯一标识 `id`）
    */
   edit?: (data: T) => Promise<void>
 
   /**
-   * 删除数据
-   * @param id - 实体 ID
+   * 删除数据（可选）
+   * @param id - 实体唯一标识（string 或 number）
    */
   del?: (id: string | number) => Promise<void>
 
   /**
-   * 启用/停用切换（如状态切换）
-   * @param id - 实体 ID
+   * 启用/停用切换（可选，用于状态开关）
+   * @param id - 实体唯一标识
    */
   startStop?: (id: string | number) => Promise<void>
 }
@@ -52,14 +52,14 @@ interface ApiMethods<T> {
 /**
  * 状态字段的合法值类型（支持数字或布尔值）
  */
-type StatusValueType = number | boolean
+export type StatusValueType = number | boolean
 
 /**
  * useCrudTable 配置选项
  */
-interface UseCrudTableOptions<T, Q extends QueryInter> {
+export interface UseCrudTableOptions<T, Q extends QueryInter> {
   /**
-   * 返回 API 方法的对象：{ list, add, edit, del, startStop }
+   * 返回 API 方法的对象：`{ list, add, edit, del, startStop }`
    *
    * 必须提供 `list`，其余方法可选。
    */
@@ -96,9 +96,9 @@ interface UseCrudTableOptions<T, Q extends QueryInter> {
   /**
    * 查询前钩子函数
    *
-   * 可在此修改 `query` 对象（如动态设置时间范围）。
+   * 可在此动态修改 `query` 对象（如设置默认时间范围、权限过滤等）。
    *
-   * @param query - 当前查询条件实例
+   * @param query - 当前查询条件实例（类型为 Q）
    */
   queryHook?: (query: Q) => void
 
@@ -142,12 +142,13 @@ interface UseCrudTableOptions<T, Q extends QueryInter> {
  * 通用【表格 + 查询 + 增删改查】逻辑 Hook
  *
  * 封装了标准 CRUD 表格的完整交互逻辑，包括：
- * - 分页查询
- * - 新增/编辑/详情抽屉
- * - 删除确认
- * - 启用/停用切换
- * - 字典映射
- * - 批量导入入口
+ * - 分页查询（支持自定义查询条件类）
+ * - 新增/编辑/详情抽屉管理（通过 {@link VisibleEntity}）
+ * - 删除确认弹窗 + 成功提示
+ * - 启用/停用状态切换（带语义化确认文案）
+ * - 字典映射（自动解构为响应式 refs）
+ * - 批量导入抽屉入口
+ * - 支持查询前钩子（queryHook）动态调整参数
  *
  * @template T - 表格数据项类型，必须包含 `id: string | number`
  * @template Q - 查询条件类型，必须实现 {@link QueryInter}
@@ -155,15 +156,18 @@ interface UseCrudTableOptions<T, Q extends QueryInter> {
  * @param options - 配置选项对象
  *
  * @returns 返回包含以下属性的对象：
- * - `table`: 表格核心实例（含 query/data/total 等）
- * - `getList`: 手动触发重新查询的方法
- * - `handleAdd` / `handleEdit` / `handleDetail`: 打开对应抽屉
- * - `handleDelete`: 删除确认 + 调用 API
- * - `handleSwitch`: 启用/停用切换（若配置了 switchConfig）
- * - `import_D`: 批量导入抽屉引用
- * - `handleImport`: 打开导入抽屉
- * - 所有字典字段（通过 `dictKey` 指定）
- * - `proxy`: 当前组件实例代理（谨慎使用）
+ * - `proxy`: 当前组件实例代理（谨慎使用，仅用于调用全局方法如 `useDict`）
+ * - `{...dict}`: 所有字典字段（如传入 `dictKey: ['status']`，则返回 `statusDict`）
+ * - `table`: {@link Table} 表格核心实例（含 `query`, `data`, `total`, `loading` 等）
+ * - `getList`: 手动触发重新查询的方法（常用于搜索、重置后刷新）
+ * - `handleAdd`: 打开新增抽屉（传入空对象 `{}`）
+ * - `handleEdit`: 打开编辑抽屉（传入当前行数据）
+ * - `handleDetail`: 打开详情抽屉（传入当前行数据）
+ * - `handleDelete`: 删除单条数据（带确认弹窗，成功后刷新列表）
+ * - `handleSwitch`: 启用/停用切换（需配置 `switchConfig`，根据当前状态智能提示）
+ * - `import_D`: 批量导入抽屉引用（可用于控制显隐）
+ * - `handleImport`: 打开批量导入抽屉
+ * - `[editorDrawerName]`: 动态 key 的编辑抽屉实例（默认为 `editor_D`）
  *
  * @example
  * ```ts
@@ -173,7 +177,14 @@ interface UseCrudTableOptions<T, Q extends QueryInter> {
  *   status: 0 | 1
  * }
  *
- * const { table, handleEdit, handleSwitch } = useCrudTable<User, UserQuery>({
+ * class UserQuery implements QueryInter {
+ *   pageNum = 1
+ *   pageSize = 20
+ *   name = ''
+ *   status?: number
+ * }
+ *
+ * const { table, handleEdit, handleSwitch, statusDict } = useCrudTable<User, UserQuery>({
  *   apiFn: useUserApi,
  *   QueryClass: UserQuery,
  *   dictKey: ['user_status'],
@@ -181,7 +192,12 @@ interface UseCrudTableOptions<T, Q extends QueryInter> {
  * })
  * ```
  *
- * @throws 如果在非 setup() 上下文中调用，将抛出错误
+ * @throws 如果在非 `setup()` 上下文中调用，将抛出错误（因依赖 `getCurrentInstance`）
+ *
+ * @remarks
+ * - 删除和启停操作依赖全局 `modal.confirm` 和 `modal.msgSuccess`，请确保已引入
+ * - 字典字段会自动解构为 `xxxDict` 形式（如 `user_status` → `userStatusDict`），具体取决于 `useDict` 实现
+ * - `extraParams` 优先级低于 `query`，但高于默认值，适用于租户 ID、固定分类等场景
  */
 export function useCrudTable<T extends { id: string | number }, Q extends QueryInter>(
   options: UseCrudTableOptions<T, Q>
@@ -197,7 +213,7 @@ export function useCrudTable<T extends { id: string | number }, Q extends QueryI
     switchConfig
   } = options
 
-  // 获取当前 Vue 组件实例
+  // 获取当前 Vue 组件实例（用于调用全局方法如 useDict）
   const instance = getCurrentInstance()
   if (!instance) {
     throw new Error('useCrudTable must be called inside setup()')
@@ -228,8 +244,13 @@ export function useCrudTable<T extends { id: string | number }, Q extends QueryI
   /**
    * 重新加载表格数据
    *
-   * - 触发 queryHook 修改查询条件
-   * - 调用 API 并更新 table.value.data / total
+   * 执行流程：
+   * 1. 调用 `queryHook` 允许动态修改查询条件
+   * 2. 合并 `extraParams` 到最终请求参数
+   * 3. 调用 `apiFn().list` 获取数据
+   * 4. 更新 `table.value.data` 和 `total`
+   *
+   * @returns Promise<void>
    */
   const getList = async () => {
     if (typeof queryHook === 'function') {
@@ -241,15 +262,16 @@ export function useCrudTable<T extends { id: string | number }, Q extends QueryI
 
   /**
    * 打开新增抽屉
+   *
+   * 传入空对象 `{}` 作为初始数据，业务层需确保 T 可安全构造。
    */
   const handleAdd = () => {
-    // 注意：此处传入空对象，业务层需确保 T 可安全构造
     editor.value.openAdd({} as T)
   }
 
   /**
    * 打开编辑抽屉
-   * @param row - 当前行数据
+   * @param row - 当前行数据（类型 T）
    */
   const handleEdit = (row: T) => {
     editor.value.openEdit(row)
@@ -257,14 +279,20 @@ export function useCrudTable<T extends { id: string | number }, Q extends QueryI
 
   /**
    * 打开详情抽屉
-   * @param row - 当前行数据
+   * @param row - 当前行数据（类型 T）
    */
   const handleDetail = (row: T) => {
     editor.value.openDetail(row)
   }
 
   /**
-   * 删除单条数据（带确认）
+   * 删除单条数据（带确认弹窗）
+   *
+   * 流程：
+   * 1. 弹出确认框：“删除该条数据，是否继续？”
+   * 2. 调用 `apiFn().del(row.id)`
+   * 3. 成功后刷新列表并提示“删除成功”
+   *
    * @param row - 当前行数据
    */
   const handleDelete = async (row: T) => {
@@ -285,7 +313,8 @@ export function useCrudTable<T extends { id: string | number }, Q extends QueryI
    * 切换启用/停用状态（需配置 switchConfig）
    *
    * 根据当前状态值判断操作意图（启用 or 停用），
-   * 弹出确认框后调用 startStop API。
+   * 弹出语义化确认框（如“确定要停用该条数据吗？”），
+   * 成功后刷新列表。
    *
    * @param row - 当前行数据
    */
