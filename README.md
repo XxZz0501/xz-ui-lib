@@ -4,8 +4,7 @@
 
 ## 🌐 在线文档
 
-📖 完整 API 文档与使用示例请访问：  
-👉 [https://XxZz0501.github.io/xz-ui-lib/](https://XxZz0501.github.io/xz-ui-lib/)
+📖 完整 API 文档与使用示例请访问：👉 [https://XxZz0501.github.io/xz-ui-lib/](https://XxZz0501.github.io/xz-ui-lib/)
 
 > 基于 [VitePress](https://vitepress.dev/) 构建，支持 TypeScript 类型提示与交互式示例。
 
@@ -20,4 +19,14 @@ yarn add xz-ui-lib
 
 # pnpm
 pnpm add xz-ui-lib
+
+# 引入样式文件
+import "@xxzz/xz-ui-lib/style.css";
+# 组件全量引入
+import { install } from "@xxzz/xz-ui-lib";
+install(app as any);
+
+# 组件按需引入
+import { XzTable } from "@xxzz/xz-ui-lib";
+
 ```

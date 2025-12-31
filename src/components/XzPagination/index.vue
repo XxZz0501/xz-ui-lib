@@ -65,7 +65,7 @@ pagerCount 通常无需手动设置，组件会根据屏幕宽度自动适配；
   </div>
 </template>
 
-<script setup lang="ts" name="XzPagination">
+<script setup lang="ts">
 /**
  * @prop {number} total 总数据条数
  * @prop {number} [page=1] 当前页码（支持 v-model:page）
@@ -87,6 +87,10 @@ pagerCount 通常无需手动设置，组件会根据屏幕宽度自动适配；
  */
 import { ref, computed, onMounted, onBeforeUnmount } from "vue";
 import { xzScroll } from "@/utils";
+
+defineOptions({
+  name: 'XzPagination'
+})
 
 // ========================
 // Props 定义（带类型）
@@ -225,7 +229,8 @@ function handleCurrentChange(newPage: number) {
 .pagination-container {
   display: flex;
   justify-content: v-bind(align);
-  margin-top: 16px;
+  margin-top: 0px;
+  padding-bottom: 0px !important;
 
   .el-pagination {
     // 不再使用 float，用 Flex 控制对齐

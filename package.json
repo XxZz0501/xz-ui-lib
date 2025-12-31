@@ -14,6 +14,7 @@
   "main": "./dist/xz-ui-lib.cjs",
   "module": "./dist/xz-ui-lib.js",
   "types": "./dist/index.d.ts",
+  "style": "./dist/style.css",
   "exports": {
     ".": {
       "import": {

@@ -8,6 +8,9 @@ export * from './composables';
 // Utils
 export * from './utils';
 
+// Class
+export * from './class';
+
 // Install function
 import type { App } from 'vue';
 import XzTable from './components/XzTable/index';

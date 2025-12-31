@@ -252,6 +252,12 @@ defineExpose({
 });
 </script>
 
+<script lang="ts">
+export default {
+  name: "XzTable",
+};
+</script>
+
 <style scoped lang="scss">
 .crud-table-container {
   display: flex;
@@ -304,8 +310,7 @@ defineExpose({
   }
 
   .pagination-section {
-    margin-top: 16px;
-    height: 54px;
+    margin-top: 8px;
   }
 }
 </style>
