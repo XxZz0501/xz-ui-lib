@@ -9,6 +9,7 @@ export default defineConfig({
   base: '/xz-ui-lib/',
   title: "XZ UI",
   description: "Vue 3 组件库",
+  ignoreDeadLinks: true,
 
   // 开启 Vue 特性（如 <script setup>）
   vue: {
