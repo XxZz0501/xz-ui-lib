@@ -51,6 +51,9 @@ export default defineConfig({
           items: [
             { text: '日期工具 (xzDate)', link: '/api/date/variables/xzDate' },
             { text: '表单规则 (xzFormRules)', link: '/api/formRules/variables/xzFormRules' },
+            { text: '对象 (xzObject)', link: '/api/object/variables/xzObject' },
+            { text: 'ui (xzUi)', link: '/api/ui/README' },
+            { text: '滚动 (xzScroll)', link: '/api/scroll-to/variables/scroll' },
           ],
         },
       ],
