@@ -8,24 +8,6 @@
 
 ---
 
-### modal
-
-Re-exports [modal](../ui/variables/modal.md)
-
-***
-
-
----
-
-### scroll
-
-Re-exports [scroll](../scroll-to/variables/scroll.md)
-
-***
-
-
----
-
 ### xzDate
 
 Re-exports [xzDate](../date/variables/xzDate.md)
@@ -44,6 +26,24 @@ Re-exports [xzFormRules](../formRules/variables/xzFormRules.md)
 
 ---
 
+### xzModal
+
+Re-exports [xzModal](../ui/variables/xzModal.md)
+
+***
+
+
+---
+
 ### xzObject
 
 Re-exports [xzObject](../object/variables/xzObject.md)
+
+***
+
+
+---
+
+### xzScroll
+
+Re-exports [xzScroll](../scroll-to/variables/xzScroll.md)

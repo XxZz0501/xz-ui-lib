@@ -2,9 +2,9 @@
 
 ***
 
-# modal
+# xzModal
 
-> `const` **modal**: `object`
+> `const` **xzModal**: `object`
 
 通用 UI 操作工具（基于 Element Plus）
 

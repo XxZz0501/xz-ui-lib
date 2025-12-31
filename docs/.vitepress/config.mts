@@ -33,7 +33,7 @@ export default defineConfig({
       { text: 'API', link: '/api/README' },
       { text: 'Class', link: '/class/README' },
       { text: 'Composables', link: '/composables/README' },
-      { text: '组件', link: '/components/' },
+      { text: '组件', link: '/components/table' },
     ],
 
     sidebar: {
@@ -54,7 +54,7 @@ export default defineConfig({
             { text: '表单规则 (xzFormRules)', link: '/api/formRules/variables/xzFormRules' },
             { text: '对象 (xzObject)', link: '/api/object/variables/xzObject' },
             { text: 'ui (xzUi)', link: '/api/ui/README' },
-            { text: '滚动 (xzScroll)', link: '/api/scroll-to/variables/scroll' },
+            { text: '滚动 (xzScroll)', link: '/api/scroll-to/variables/xzScroll' },
           ],
         },
       ],
@@ -89,8 +89,8 @@ export default defineConfig({
         {
           text: '组件',
           items: [
-            { text: '概览', link: '/components/' },
-            // 后续添加具体组件
+            { text: 'Table', link: '/components/table' },
+            { text: 'Pagination', link: '/components/pagination' },
           ],
         },
       ],
@@ -98,6 +98,7 @@ export default defineConfig({
 
     socialLinks: [
       { icon: 'github', link: 'https://github.com/XxZz0501/xz-ui-lib' },
+      { icon: 'npm', link: 'https://github.com/XxZz0501/xz-ui-lib' },
     ],
   },
 })

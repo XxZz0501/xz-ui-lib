@@ -54,7 +54,6 @@
     "docs:dev": "vitepress dev docs --port=1000",
     "docs:build-api": "node scripts/build-docs-api.mjs",
     "docs:build-class": "node scripts/build-docs-class.mjs",
-    "docs:build-components": "node scripts/build-docs-components.mjs",
     "docs:build-composables": "node scripts/build-docs-composables.mjs",
     "docs:build": "vitepress build docs",
     "docs:preview": "vitepress preview docs",
@@ -78,7 +77,6 @@
     "vite": "^5.2.0",
     "vite-plugin-dts": "^3.8.0",
     "vitepress": "^1.6.4",
-    "vue": "^3.4.0",
-    "vue-component-meta": "^1.8.27"
+    "vue": "^3.4.0"
   }
 }

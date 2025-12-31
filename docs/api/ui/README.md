@@ -6,4 +6,4 @@
 
 ## Variables
 
-- [modal](variables/modal.md)
+- [xzModal](variables/xzModal.md)

@@ -6,4 +6,4 @@
 
 ## Variables
 
-- [scroll](variables/scroll.md)
+- [xzScroll](variables/xzScroll.md)

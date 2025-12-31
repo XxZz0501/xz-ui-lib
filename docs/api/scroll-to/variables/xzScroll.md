@@ -2,9 +2,9 @@
 
 ***
 
-# scroll
+# xzScroll
 
-> `const` **scroll**: `object`
+> `const` **xzScroll**: `object`
 
 页面滚动工具集
 
