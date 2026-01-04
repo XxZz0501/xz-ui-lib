@@ -208,7 +208,7 @@ export function useCrudTable<T extends { id: string | number }, Q extends QueryI
     dictKey = [],
     editorDrawerName = 'editor_D',
     extraParams = {},
-    queryHook = () => {},
+    queryHook = () => { },
     isInitQuery = true,
     switchConfig
   } = options
@@ -257,7 +257,7 @@ export function useCrudTable<T extends { id: string | number }, Q extends QueryI
       // 类型断言确保兼容 UnwrapRef<Q>
       queryHook(table.value.query! as Q)
     }
-    return await table.value.getList(apiFn().list, extraParams)
+    return await table.value.getList(apiFn().list, { ...table.value.query, ...extraParams })
   }
 
   /**

@@ -115,8 +115,7 @@ const { table, getList } = useCrudTable<User, UserQuery>({
  *
  * @expose selectedRows 当前选中的行数据数组
  * @expose clearSelection 清空所有选中项
- * @expose toggleRowSelection 切换某一行的选中状态
- * @expose getTableRef 获取内部 ElTable 实例引用
+ * @expose toggleRowSelection 切换某一行的选中状态 （需传入行数据和选中状态）
  */
 
 import { ref, computed, nextTick } from "vue";
@@ -241,13 +240,6 @@ defineExpose({
   toggleRowSelection(row: T, selected?: boolean) {
     tableRef.value?.toggleRowSelection(row, selected);
     // 注意：selectedRows 需要手动同步（或依赖 selection-change）
-  },
-
-  /**
-   * 获取当前表格引用（ElTable 实例）
-   */
-  getTableRef() {
-    return tableRef.value;
   },
 });
 </script>
