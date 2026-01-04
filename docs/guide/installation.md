@@ -3,5 +3,5 @@
 ## 安装
 
 ```bash
-npm install xz-ui-lib
+npm install @xxzz/xz-ui-lib
 ```
