@@ -1,0 +1,1 @@
+import{_ as s,c as e,o as t,ae as n}from"./chunks/framework.D69qwIbp.js";const b=JSON.parse('{"title":"xz-ui-lib","description":"","frontmatter":{},"headers":[],"relativePath":"index.md","filePath":"index.md"}'),l={name:"index.md"};function i(p,a,o,r,d,c){return t(),e("div",null,[...a[0]||(a[0]=[n("",44)])])}const u=s(l,[["render",i]]);export{b as __pageData,u as default};
