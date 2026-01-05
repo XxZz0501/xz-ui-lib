@@ -106,5 +106,91 @@ export const xzScroll = {
    */
   toTop(duration: number = 500, callback?: () => void): void {
     this.to(0, duration, callback)
+  },
+
+  /**
+   * 将指定滚动容器的内容平滑滚动到顶部
+   *
+   * 适用于自定义滚动区域（如 el-table 的 .el-scrollbar__wrap、
+   * 自定义 overflow:auto 容器等）。
+   *
+   * @param target - 滚动容器元素（必须是可滚动的 DOM 元素）
+   * @param duration - 动画持续时间（毫秒），默认 300ms
+   * @param callback - 动画完成后的回调函数（可选）
+   *
+   * @example
+   * ```ts
+   * // 滚动 el-table 内部容器到顶部
+   * const wrap = tableRef.$el.querySelector('.el-scrollbar__wrap')
+   * if (wrap) xzScroll.toElementTop(wrap)
+   *
+   * // 滚动任意 div 到顶部
+   * const myScrollBox = document.getElementById('my-scroll-box')
+   * xzScroll.toElementTop(myScrollBox, 500)
+   * ```
+   *
+   * @note 如果 target 不是 Element 或不可滚动，会静默失败（不报错）
+   */
+  toElementTop(
+    target: Element | null,
+    duration: number = 300,
+    callback?: () => void
+  ): void {
+    // SSR / 非浏览器环境安全检查
+    if (typeof window === 'undefined' || !target || !(target instanceof Element)) {
+      if (callback && typeof callback === 'function') {
+        callback()
+      }
+      return
+    }
+
+    // ---- 内部工具函数（复用缓动函数）----
+    const easeInOutQuad = (t: number, b: number, c: number, d: number): number => {
+      t /= d / 2
+      if (t < 1) return (c / 2) * t * t + b
+      t--
+      return (-c / 2) * (t * (t - 2) - 1) + b
+    }
+
+    const requestAnimFrame =
+      window.requestAnimationFrame ||
+      (window as any).webkitRequestAnimationFrame ||
+      (window as any).mozRequestAnimationFrame ||
+      function (cb: () => void) {
+        window.setTimeout(cb, 1000 / 60)
+      }
+
+    // 获取当前滚动位置（兼容 scrollTop / scrollY）
+    const getCurrentScrollTop = (): number => {
+      return (target as HTMLElement).scrollTop || 0
+    }
+
+    // 设置滚动位置
+    const setScrollTop = (val: number): void => {
+      ;(target as HTMLElement).scrollTop = val
+    }
+
+    // ---- 执行动画 ----
+    const start = getCurrentScrollTop()
+    const change = 0 - start // 滚动到顶部 => 目标是 0
+    const increment = 20
+    let currentTime = 0
+
+    const animateScroll = () => {
+      currentTime += increment
+      const val = easeInOutQuad(currentTime, start, change, duration)
+      setScrollTop(val)
+
+      if (currentTime < duration) {
+        requestAnimFrame(animateScroll)
+      } else {
+        setScrollTop(0) // 确保最终精确归零
+        if (callback && typeof callback === 'function') {
+          callback()
+        }
+      }
+    }
+
+    animateScroll()
   }
 }

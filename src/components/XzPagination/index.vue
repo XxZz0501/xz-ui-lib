@@ -77,6 +77,7 @@ pagerCount 通常无需手动设置，组件会根据屏幕宽度自动适配；
  * @prop {boolean} [autoScroll=true] 切换分页后是否自动滚动到页面顶部
  * @prop {boolean} [hidden=false] 是否隐藏分页组件（完全不渲染）
  * @prop {"left"|"center"|"right"} [align="right"] 分页容器对齐方式
+ * @prop {InstanceType<typeof ElTable>} tableRef tableRef
  *
  * @event update:page (value: number) 当前页码更新时触发（用于 v-model:page）
  * @event update:limit (value: number) 每页条数更新时触发（用于 v-model:limit）
@@ -85,12 +86,13 @@ pagerCount 通常无需手动设置，组件会根据屏幕宽度自动适配；
  * @expose currentPageProxy 当前页码的双向绑定代理（内部使用）
  * @expose pageSizeProxy 每页条数的双向绑定代理（内部使用）
  */
-import { ref, computed, onMounted, onBeforeUnmount } from "vue";
+import { ref, computed, onMounted, onBeforeUnmount, nextTick } from "vue";
 import { xzScroll } from "@/utils";
+import { ElTable } from "element-plus";
 
 defineOptions({
-  name: 'XzPagination'
-})
+  name: "XzPagination",
+});
 
 // ========================
 // Props 定义（带类型）
@@ -100,6 +102,11 @@ interface PaginationProps {
    * 总数据条数
    */
   total: number;
+
+  /**
+   * tableRef
+   */
+  tableRef: InstanceType<typeof ElTable> | null;
 
   /**
    * 当前页码（v-model:page）
@@ -213,16 +220,37 @@ function handleSizeChange(newPageSize: number) {
   }
   emit("pagination", { page: newPage, limit: newPageSize });
   if (props.autoScroll) {
-    xzScroll.to(0, 800);
+    scrollToTableTop();
   }
 }
 
 function handleCurrentChange(newPage: number) {
   emit("pagination", { page: newPage, limit: props.limit });
   if (props.autoScroll) {
-    xzScroll.to(0, 800);
+    scrollToTableTop();
   }
 }
+
+// 滚动至table顶部
+const scrollToTableTop = () => {
+  nextTick(() => {
+    const tableEl = props.tableRef?.$el;
+    if (!tableEl) return;
+
+    // 优先找 .el-scrollbar__wrap（百分比高度场景）
+    const scrollContainer = tableEl.querySelector(".el-scrollbar__wrap");
+    if (scrollContainer) {
+      xzScroll.toElementTop(scrollContainer, 500);
+      return;
+    }
+
+    // 回退到 .el-table__body-wrapper（固定高度场景）
+    const bodyWrapper = tableEl.querySelector(".el-table__body-wrapper");
+    if (bodyWrapper) {
+      xzScroll.toElementTop(bodyWrapper, 500);
+    }
+  });
+};
 </script>
 
 <style scoped lang="scss">

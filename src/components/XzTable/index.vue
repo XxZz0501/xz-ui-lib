@@ -85,6 +85,7 @@ const { table, getList } = useCrudTable<User, UserQuery>({
     <div v-if="!props.hidePagination && table.pagination.total > 0" class="pagination-section">
       <pagination
         :total="table.pagination.total"
+        :tableRef="tableRef"
         v-model:page="table.pagination.pageNum"
         v-model:limit="table.pagination.pageSize"
         @pagination="getList"
@@ -102,6 +103,7 @@ const { table, getList } = useCrudTable<User, UserQuery>({
 /**
  * @prop {Table<T, Q>} table 表格核心实例，由 useCrudTable.table 提供
  * @prop {() => Promise<T[]>} getList 获取列表数据的方法，由 useCrudTable.getList 提供
+ * @prop {boolean} [autoScroll=true] 是否自动滚动到顶部
  * @prop {boolean} [hideQuery=false] 是否隐藏查询区域
  * @prop {boolean} [hidePagination=false] 是否隐藏分页
  * @prop {boolean} [hideReset=false] 是否隐藏重置按钮
@@ -119,9 +121,10 @@ const { table, getList } = useCrudTable<User, UserQuery>({
  */
 
 import { ref, computed, nextTick } from "vue";
-import type { Table } from "@/class/table";
+import type { Table } from "@/class";
 import Pagination from "../XzPagination/index.vue";
 import { ElTable } from "element-plus";
+import { xzScroll } from "@/utils";
 
 const props = withDefaults(
   defineProps<{
@@ -134,6 +137,11 @@ const props = withDefaults(
      * 获取列表数据的方法（由 useCrudTable.getList 提供）
      */
     getList: () => Promise<T[]>;
+
+    /**
+     * 是否自动滚动到顶部
+     */
+    autoScroll?: boolean;
 
     /**
      * 是否隐藏查询区域
@@ -170,6 +178,7 @@ const props = withDefaults(
   {
     queryLayout: "between",
     height: "100%",
+    autoScroll: true,
   }
 );
 
@@ -191,6 +200,7 @@ const tableHeight = computed(() => {
  */
 const handleSearch = () => {
   props.table.search(props.getList);
+  scrollToTableTop();
 };
 
 /**
@@ -198,6 +208,28 @@ const handleSearch = () => {
  */
 const handleReset = () => {
   props.table.reset(props.getList);
+  scrollToTableTop();
+};
+
+// 滚动至table顶部
+const scrollToTableTop = () => {
+  nextTick(() => {
+    const tableEl = tableRef.value?.$el;
+    if (!tableEl) return;
+
+    // 优先找 .el-scrollbar__wrap（百分比高度场景）
+    const scrollContainer = tableEl.querySelector(".el-scrollbar__wrap");
+    if (scrollContainer) {
+      xzScroll.toElementTop(scrollContainer, 500);
+      return;
+    }
+
+    // 回退到 .el-table__body-wrapper（固定高度场景）
+    const bodyWrapper = tableEl.querySelector(".el-table__body-wrapper");
+    if (bodyWrapper) {
+      xzScroll.toElementTop(bodyWrapper, 500);
+    }
+  });
 };
 
 /**
