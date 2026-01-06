@@ -1,27 +1,32 @@
-// Components
-export { default as XzTable } from './components/XzTable/index';
-export { default as XzPagination } from './components/XzPagination/index';
+// src/index.ts
+import type { App, Plugin } from 'vue'
 
-// Composables
-export * from './composables';
+const componentModules = import.meta.glob('./components/*/index.{vue,ts}', {
+  eager: true,
+})
 
-// Utils
-export * from './utils';
+const components = Object.values(componentModules)
+  .map((mod: any) => mod.default)
+  .filter((comp: any) => comp?.name)
 
-// Class
-export * from './class';
-
-// Install function
-import type { App } from 'vue';
-import XzTable from './components/XzTable/index';
-import XzPagination from './components/XzPagination/index';
-
-const components = [XzTable, XzPagination];
-
-export function install(app: App) {
-  components.forEach(comp => {
-    app.component(comp.name || 'AnonymousComponent', comp);
-  });
+// 自动注册到 Vue
+const install: Plugin['install'] = (app: App) => {
+  components.forEach((comp) => {
+    app.component(comp.name, comp)
+  })
 }
 
-export default { install };
+// 显式导出（推荐手动维护，清晰可控）
+export { default as XzTable } from './components/XzTable/index'
+export { default as XzDrawer } from './components/XzDrawer/index'
+export { default as XzModal } from './components/XzModal/index'
+export { default as XzPagination } from './components/XzPagination/index'
+
+// 其他
+export * from './composables'
+export * from './utils'
+export * from './class'
+
+export { install }
+
+export default { install }

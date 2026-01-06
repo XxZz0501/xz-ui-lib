@@ -46,6 +46,7 @@ const { table, getList } = useCrudTable<User, UserQuery>({
 ✅ 响应式布局（支持 queryLayout="between" 或 "start"）
 ✅ 暴露 selectedRows、clearSelection() 等方法供父组件控制
 ✅ 内置加载状态（v-loading）
+✅ 完整属性透传
 💡 注意：本组件依赖 Element Plus 的 <el-table> 和 <el-button>，请确保已全局注册或按需引入。
 -->
 
@@ -72,9 +73,10 @@ const { table, getList } = useCrudTable<User, UserQuery>({
         :data="table.data"
         :height="tableHeight"
         :show-overflow-tooltip="true"
-        v-loading="table.loading"
-        @selection-change="onSelectionChange"
         :class="{ 'single-selection': props.singleSelection }"
+        @selection-change="onSelectionChange"
+        v-loading="table.loading"
+        v-bind="$attrs"
       >
         <!-- @slot columns - 表格列定义 -->
         <slot name="columns" />
@@ -88,6 +90,8 @@ const { table, getList } = useCrudTable<User, UserQuery>({
         :tableRef="tableRef"
         v-model:page="table.pagination.pageNum"
         v-model:limit="table.pagination.pageSize"
+        background
+        layout="total, sizes, prev, pager, next, jumper, ->"
         @pagination="getList"
       />
     </div>
@@ -128,34 +132,22 @@ import { xzScroll } from "@/utils";
 
 const props = withDefaults(
   defineProps<{
-    /**
-     * 表格核心实例（由 useCrudTable.table 提供）
-     */
+    /** 表格核心实例（由 useCrudTable.table 提供）*/
     table: Table<T, Q>;
 
-    /**
-     * 获取列表数据的方法（由 useCrudTable.getList 提供）
-     */
+    /** 获取列表数据的方法（由 useCrudTable.getList 提供）  */
     getList: () => Promise<T[]>;
 
-    /**
-     * 是否自动滚动到顶部
-     */
+    /** 是否自动滚动到顶部  */
     autoScroll?: boolean;
 
-    /**
-     * 是否隐藏查询区域
-     */
+    /** 是否隐藏查询区域  */
     hideQuery?: boolean;
 
-    /**
-     * 是否隐藏分页
-     */
+    /** 是否隐藏分页  */
     hidePagination?: boolean;
 
-    /**
-     * 是否隐藏“重置”按钮
-     */
+    /** 是否隐藏“重置”按钮  */
     hideReset?: boolean;
 
     /**
@@ -165,14 +157,10 @@ const props = withDefaults(
      */
     queryLayout?: "between" | "start";
 
-    /**
-     * 是否启用单选模式（隐藏表头全选框，限制只能选一项）
-     */
+    /** 是否启用单选模式（隐藏表头全选框，限制只能选一项）  */
     singleSelection?: boolean;
 
-    /**
-     * 表格高度（默认填满容器）
-     */
+    /** 表格高度（默认填满容器）  */
     height?: string | number;
   }>(),
   {

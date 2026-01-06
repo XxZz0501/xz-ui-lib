@@ -16,6 +16,8 @@
 ✅ 支持完全隐藏（`hidden`）而不占布局空间  
 ✅ 对齐方式灵活：`left` / `center` / `right`（默认右对齐）  
 ✅ 当切换每页条数导致当前页无效时，自动重置为第一页  
+✅ 完整属性透传（layout、page-sizes、background、total 等全支持）
+✅ 支持 tableRef 自动定位滚动容器  
 
 ## 基础用法
 
@@ -54,11 +56,8 @@ pagerCount 通常无需手动设置，组件会根据屏幕宽度自动适配；
     <el-pagination
       v-model:current-page="currentPageProxy"
       v-model:page-size="pageSizeProxy"
-      :background="background"
-      :layout="layout"
-      :page-sizes="pageSizes"
-      :pager-count="pagerCountRef"
       :total="total"
+      v-bind="$attrs"
       @size-change="handleSizeChange"
       @current-change="handleCurrentChange"
     />
@@ -70,10 +69,6 @@ pagerCount 通常无需手动设置，组件会根据屏幕宽度自动适配；
  * @prop {number} total 总数据条数
  * @prop {number} [page=1] 当前页码（支持 v-model:page）
  * @prop {number} [limit=20] 每页条数（支持 v-model:limit）
- * @prop {number[]} [pageSizes=[10,20,30,50]] 可选的每页大小选项
- * @prop {number} [pagerCount] 页码按钮数量（默认根据屏幕宽度动态调整：移动端5，桌面端7）
- * @prop {string} [layout="total, sizes, prev, pager, next, jumper"] 分页组件布局
- * @prop {boolean} [background=true] 是否启用分页按钮背景色
  * @prop {boolean} [autoScroll=true] 切换分页后是否自动滚动到页面顶部
  * @prop {boolean} [hidden=false] 是否隐藏分页组件（完全不渲染）
  * @prop {"left"|"center"|"right"} [align="right"] 分页容器对齐方式
@@ -86,7 +81,7 @@ pagerCount 通常无需手动设置，组件会根据屏幕宽度自动适配；
  * @expose currentPageProxy 当前页码的双向绑定代理（内部使用）
  * @expose pageSizeProxy 每页条数的双向绑定代理（内部使用）
  */
-import { ref, computed, onMounted, onBeforeUnmount, nextTick } from "vue";
+import { computed, nextTick } from "vue";
 import { xzScroll } from "@/utils";
 import { ElTable } from "element-plus";
 
@@ -98,59 +93,25 @@ defineOptions({
 // Props 定义（带类型）
 // ========================
 interface PaginationProps {
-  /**
-   * 总数据条数
-   */
+  /** 总数据条数 */
   total: number;
 
-  /**
-   * tableRef
-   */
+  /** tableRef */
   tableRef: InstanceType<typeof ElTable> | null;
 
-  /**
-   * 当前页码（v-model:page）
-   */
+  /** 当前页码（v-model:page） */
   page?: number;
 
-  /**
-   * 每页条数（v-model:limit）
-   */
+  /** 每页条数（v-model:limit）*/
   limit?: number;
 
-  /**
-   * 可选的每页大小选项
-   */
-  pageSizes?: number[];
-
-  /**
-   * 页码按钮数量（默认根据屏幕宽度动态调整）
-   */
-  pagerCount?: number;
-
-  /**
-   * 分页组件布局
-   */
-  layout?: string;
-
-  /**
-   * 是否启用背景色
-   */
-  background?: boolean;
-
-  /**
-   * 切换分页后是否自动滚动到顶部
-   */
+  /** 切换分页后是否自动滚动到顶部*/
   autoScroll?: boolean;
 
-  /**
-   * 是否隐藏分页组件
-   */
+  /** 是否隐藏分页组件 */
   hidden?: boolean;
 
-  /**
-   * 对齐方式（left / center / right）
-   */
+  /** 对齐方式（left / center / right）*/
   align?: "left" | "center" | "right";
 }
 
@@ -172,28 +133,6 @@ const emit = defineEmits<{
   (e: "update:limit", value: number): void;
   (e: "pagination", payload: { page: number; limit: number }): void;
 }>();
-
-// ========================
-// 响应式 pagerCount（移动端适配）
-// ========================
-const isMobile = ref(false);
-const pagerCountRef = computed(() => {
-  if (props.pagerCount !== undefined) {
-    return props.pagerCount;
-  }
-  return isMobile.value ? 5 : 7;
-});
-
-onMounted(() => {
-  const checkScreen = () => {
-    isMobile.value = window.innerWidth < 992;
-  };
-  checkScreen();
-  window.addEventListener("resize", checkScreen);
-
-  // 组件卸载时移除监听（可选，若项目有内存泄漏顾虑）
-  onBeforeUnmount(() => window.removeEventListener("resize", checkScreen));
-});
 
 // ========================
 // 双向绑定代理
