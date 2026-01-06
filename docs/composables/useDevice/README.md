@@ -2,8 +2,8 @@
 
 ***
 
-# useRequest
+# useDevice
 
 ## Functions
 
-- [useRequest](functions/useRequest.md)
+- [useDevice](functions/useDevice.md)

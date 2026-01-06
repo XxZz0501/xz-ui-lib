@@ -1,4 +1,4 @@
-# xz-table
+# Table 表格组件
 
 ## 介绍
 
@@ -14,6 +14,19 @@
 1. 必须配合 `useCrudTable` 使用。
 2. 需要传入由 `useCrudTable` 返回的 `table` 实例和 `getList` 方法。
 3. 表格列定义通过 `#columns` 插槽传入（使用 Element Plus 的 `<el-table-column>`）。
+
+
+## 功能特性
+
+* ✅ 自动绑定查询、重置、分页事件
+* ✅ 支持隐藏查询区、分页、重置按钮
+* ✅ 支持单选模式（限制只能选中一行）
+* ✅ 响应式布局（支持 `queryLayout="between"` 或 `"start"`）
+* ✅ 暴露 `selectedRows`、`clearSelection()` 等方法供父组件控制
+* ✅ 内置加载状态（`v-loading`）
+
+> 💡 注意：本组件依赖 Element Plus 的 `<el-table>` 和 `<el-button>`，请确保已全局注册或按需引入。
+
 
 ## 基础用法示例
 
@@ -76,14 +89,3 @@ const { table, getList } = useCrudTable<User, UserQuery>({
 | `clearSelection()`                   | 清空所有选中项                       |
 | `toggleRowSelection(row, selected?)` | 切换某一行的选中状态                 |
 | `getTableRef()`                      | 获取内部 `ElTable` 实例引用        |
-
-## 功能特性
-
-* ✅ 自动绑定查询、重置、分页事件
-* ✅ 支持隐藏查询区、分页、重置按钮
-* ✅ 支持单选模式（限制只能选中一行）
-* ✅ 响应式布局（支持 `queryLayout="between"` 或 `"start"`）
-* ✅ 暴露 `selectedRows`、`clearSelection()` 等方法供父组件控制
-* ✅ 内置加载状态（`v-loading`）
-
-> 💡 注意：本组件依赖 Element Plus 的 `<el-table>` 和 `<el-button>`，请确保已全局注册或按需引入。

@@ -1,4 +1,4 @@
-[**xz-ui-lib**](../../README.md)
+[**@xxzz/xz-ui-lib**](../../README.md)
 
 ***
 

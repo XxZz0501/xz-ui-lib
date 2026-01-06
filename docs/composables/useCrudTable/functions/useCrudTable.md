@@ -1,4 +1,4 @@
-[**xz-ui-lib**](../../README.md)
+[**@xxzz/xz-ui-lib**](../../README.md)
 
 ***
 
@@ -10,7 +10,7 @@
 
 封装了标准 CRUD 表格的完整交互逻辑，包括：
 - 分页查询（支持自定义查询条件类）
-- 新增/编辑/详情抽屉管理（通过 [VisibleEntity](/class/visible/README)）
+- 新增/编辑/详情抽屉管理（通过 VisibleEntity）
 - 删除确认弹窗 + 成功提示
 - 启用/停用状态切换（带语义化确认文案）
 - 字典映射（自动解构为响应式 refs）
@@ -44,7 +44,7 @@
 返回包含以下属性的对象：
 - `proxy`: 当前组件实例代理（谨慎使用，仅用于调用全局方法如 `useDict`）
 - `{...dict}`: 所有字典字段（如传入 `dictKey: ['status']`，则返回 `statusDict`）
-- `table`: [Table](/class/table/README) 表格核心实例（含 `query`, `data`, `total`, `loading` 等）
+- `table`: Table 表格核心实例（含 `query`, `data`, `total`, `loading` 等）
 - `getList`: 手动触发重新查询的方法（常用于搜索、重置后刷新）
 - `handleAdd`: 打开新增抽屉（传入空对象 `{}`）
 - `handleEdit`: 打开编辑抽屉（传入当前行数据）
@@ -178,7 +178,7 @@ Promise&lt;void&gt;`
 
 ### import\_D
 
-> **import\_D**: `Ref`\<\{ `entity`: `unknown`; `type`: `string`; `visible`: `boolean`; `close`: `void`; `open`: `void`; `openAdd`: `void`; `openDetail`: `void`; `openEdit`: `void`; \}, [`VisibleEntity`](/class/visible/README)\<`unknown`\> \| \{ `entity`: `unknown`; `type`: `string`; `visible`: `boolean`; `close`: `void`; `open`: `void`; `openAdd`: `void`; `openDetail`: `void`; `openEdit`: `void`; \}\>
+> **import\_D**: `Ref`\<\{ `entity`: `unknown`; `type`: `string`; `visible`: `boolean`; `close`: `void`; `open`: `void`; `openAdd`: `void`; `openDetail`: `void`; `openEdit`: `void`; \}, `VisibleEntity`\<`unknown`\> \| \{ `entity`: `unknown`; `type`: `string`; `visible`: `boolean`; `close`: `void`; `open`: `void`; `openAdd`: `void`; `openDetail`: `void`; `openEdit`: `void`; \}\>
 
 ### proxy
 
@@ -186,7 +186,7 @@ Promise&lt;void&gt;`
 
 ### table
 
-> **table**: `Ref`\<\{ `data`: `UnwrapRefSimple`\<`T`\>[]; `loading`: `boolean`; `pagination`: \{ `pageNum`: `number`; `pageSize`: `number`; `size`: `string`; `total`: `number`; `setTotal`: `void`; \}; `query`: `UnwrapRef`\<`Q`\> \| `null`; `getList`: `Promise`\<`number`\>; `minusTotal`: `void`; `reset`: `void`; `search`: `void`; \}, [`Table`](/class/table/README)\<`T`, `Q`\> \| \{ `data`: `UnwrapRefSimple`\<`T`\>[]; `loading`: `boolean`; `pagination`: \{ `pageNum`: `number`; `pageSize`: `number`; `size`: `string`; `total`: `number`; `setTotal`: `void`; \}; `query`: `UnwrapRef`\<`Q`\> \| `null`; `getList`: `Promise`\<`number`\>; `minusTotal`: `void`; `reset`: `void`; `search`: `void`; \}\>
+> **table**: `Ref`\<\{ `data`: `UnwrapRefSimple`\<`T`\>[]; `loading`: `boolean`; `pagination`: \{ `pageNum`: `number`; `pageSize`: `number`; `size`: `string`; `total`: `number`; `setTotal`: `void`; \}; `query`: `UnwrapRef`\<`Q`\> \| `null`; `getList`: `Promise`\<`number`\>; `minusTotal`: `void`; `reset`: `void`; `search`: `void`; \}, `Table`\<`T`, `Q`\> \| \{ `data`: `UnwrapRefSimple`\<`T`\>[]; `loading`: `boolean`; `pagination`: \{ `pageNum`: `number`; `pageSize`: `number`; `size`: `string`; `total`: `number`; `setTotal`: `void`; \}; `query`: `UnwrapRef`\<`Q`\> \| `null`; `getList`: `Promise`\<`number`\>; `minusTotal`: `void`; `reset`: `void`; `search`: `void`; \}\>
 
 ## Example
 
@@ -218,6 +218,6 @@ const { table, handleEdit, handleSwitch, statusDict } = useCrudTable&lt;User, Us
 
 ## Remarks
 
-- 删除和启停操作依赖全局 `modal.confirm` 和 `modal.msgSuccess`，请确保已引入
+- 删除和启停操作依赖全局 `xzModal.confirm` 和 `xzModal.msgSuccess`，请确保已引入
 - 字典字段会自动解构为 `xxxDict` 形式（如 `user_status` → `userStatusDict`），具体取决于 `useDict` 实现
 - `extraParams` 优先级低于 `query`，但高于默认值，适用于租户 ID、固定分类等场景

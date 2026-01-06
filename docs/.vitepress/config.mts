@@ -73,6 +73,9 @@ export default defineConfig({
                 { text: 'useCrudTable', link: '/composables/useCrudTable/functions/useCrudTable' },
               ]
             },
+            {
+              text: 'Device', link: '/composables/useDevice/README',
+            }
           ],
         },
       ],
@@ -92,6 +95,8 @@ export default defineConfig({
           items: [
             { text: 'Table', link: '/components/table' },
             { text: 'Pagination', link: '/components/pagination' },
+            { text: 'Drawer', link: '/components/drawer' },
+            { text: 'Modal', link: '/components/modal' },
           ],
         },
       ],
@@ -99,7 +104,7 @@ export default defineConfig({
 
     socialLinks: [
       { icon: 'github', link: 'https://github.com/XxZz0501/xz-ui-lib' },
-      { icon: 'npm', link: 'https://github.com/XxZz0501/xz-ui-lib' },
+      { icon: 'npm', link: 'https://www.npmjs.com/package/@xxzz/xz-ui-lib' },
     ],
   },
 })
