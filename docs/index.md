@@ -54,6 +54,65 @@ import { xzDate } from '@xxzz/xz-ui-lib'
 | 💡**Composables**  | 组合式函数 | `useCrudTable`, `useRequest`            |
 
 
+## 🚀 更新日志 (Changelog)
+
+本页面记录了 **xz-ui-lib** 的所有版本更新内容，按时间倒序排列。
+
+### v1.0.2 (当前版本)
+
+#### 新增功能
+- **components**
+  - 新增 `XzDrawer` 抽屉组件（属性透传、响应式宽度、可选自动聚焦、延迟关闭回调）
+  - 新增 `XzModal` 对话框组件（属性透传、响应式宽度、延迟关闭回调）
+  - `XzTable` 与 `XzPagination` 支持完整属性透传（所有 Element Plus 原生属性均可直接使用）
+  - `XzTable` + `XzPagination` 组合使用时，执行搜索或分页后自动滚动至表格顶部
+
+- **composables**
+  - 新增 `useDevice` 组合式函数，提供全库统一的响应式设备判断（mobile / tablet / desktop），为未来响应式增强预留统一入口
+
+#### 改进
+- 所有组件文档风格统一，代码示例采用 template + script 分离形式，确保 VitePress 文档零报错稳定运行
+
+### v1.0.1
+
+#### 修复
+- **components**
+  - 修复 `XzTable` 在某些查询条件下出现异常的问题
+  - 持续完善组件稳定性与类型定义
+
+### v1.0.0 (初始发布)
+
+#### 新增功能
+- **class**
+  - 新增 `VisibleEntity` 类：统一管理抽屉、对话框等模态组件的显隐状态，支持 `open()` / `close()` / `visible` 响应式控制
+  - 新增表格相关类（内部使用）
+
+- **utils**
+  - 新增 `object` 模块：对象操作工具函数
+  - 新增 `ui` 模块：UI 相关通用工具
+  - 新增 `scroll-to` 模块：平滑滚动工具（支持滚动到元素顶部）
+  - 新增 `date` 模块：日期处理工具
+  - 新增 `formRules` 模块：常用表单校验规则
+
+- **components**
+  - 新增 `XzTable` 表格组件（高度封装，支持搜索、分页联动、属性透传）
+  - 新增 `XzPagination` 分页组件（响应式 pagerCount、自动滚动、属性透传、v-model 支持）
+
+- **composables**
+  - 新增 `useCrudTable` 组合式函数：快速实现 CRUD 表格常用逻辑（搜索、重置、分页、加载状态等）
+
+#### 项目基础
+- 完成组件库基础架构搭建
+- 支持按需导入与全局注册
+- TypeScript 全覆盖，提供完整类型提示
+- 文档站点基于 VitePress 搭建
+
+---
+
+感谢您使用 **xz-ui-lib**！  
+我们会持续迭代，专注于后台管理系统的高效、稳定、易用组件。如果您有任何建议或问题，欢迎提交 Issue 或 PR。
+
+
 ## 🧰 工具函数（Utils）
 
 提供常用业务辅助函数。
@@ -97,12 +156,24 @@ import { xzDate } from '@xxzz/xz-ui-lib'
 
 独立的分页组件，可与 `XzTable` 配合使用。
 
+### [`XzDrawer`](components/drawer.md)
+
+抽屉组件
+
+### [`XzModal`](components/modal.md)
+
+弹窗组件
+
 
 ## 💡 组合式函数（Composables）
 
 ### [`useCrudTable`](composables/useCrudTable/README.md)
 
 封装 CRUD 表格逻辑，简化数据管理。
+
+### [`useDevice`](composables/useDevice/README.md)
+
+封装设备大小获取逻辑。
 
 ## 📁 目录结构
 
