@@ -21,6 +21,7 @@ export { default as XzTable } from './components/XzTable/index'
 export { default as XzDrawer } from './components/XzDrawer/index'
 export { default as XzModal } from './components/XzModal/index'
 export { default as XzPagination } from './components/XzPagination/index'
+export { default as XzContentContainer } from './components/XzContentContainer/index'
 
 // 其他
 export * from './composables'
