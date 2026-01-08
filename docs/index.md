@@ -120,13 +120,10 @@ import { xzDate } from '@xxzz/xz-ui-lib'
 ### [`date.ts`](api/date/README.md)
 
 
-
 ### [`formRules.ts`](api/formRules/README.md)
 
 
-
 ### [`object.ts`](api/object/README.md)
-
 
 
 ### [`scroll-to.ts`](api/scroll-to/README.md)
@@ -163,6 +160,10 @@ import { xzDate } from '@xxzz/xz-ui-lib'
 ### [`XzModal`](components/modal.md)
 
 弹窗组件
+
+### [`XzContentContainer`](components/contentContainer.md)
+
+提供标准化的页面布局结构，包含 **面包屑导航区、主内容区、底部按钮区**，内置加载状态与灵活布局模式，适用于表单页、详情页等典型业务场景。
 
 
 ## 💡 组合式函数（Composables）

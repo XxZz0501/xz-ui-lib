@@ -47,6 +47,18 @@ export default defineConfig({
           ],
         },
       ],
+      '/components/': [
+        {
+          text: '组件',
+          items: [
+            { text: 'Table', link: '/components/table' },
+            { text: 'Pagination', link: '/components/pagination' },
+            { text: 'Drawer', link: '/components/drawer' },
+            { text: 'Modal', link: '/components/modal' },
+            { text: 'ContentContainer', link: '/components/contentContainer' },
+          ],
+        },
+      ],
       '/api/': [
         {
           text: '工具函数 API',
@@ -88,17 +100,6 @@ export default defineConfig({
             { text: 'Visible', link: '/class/visible/README' }
           ]
         }
-      ],
-      '/components/': [
-        {
-          text: '组件',
-          items: [
-            { text: 'Table', link: '/components/table' },
-            { text: 'Pagination', link: '/components/pagination' },
-            { text: 'Drawer', link: '/components/drawer' },
-            { text: 'Modal', link: '/components/modal' },
-          ],
-        },
       ],
     },
 
